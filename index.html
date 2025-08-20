@@ -51,7 +51,7 @@
     box-shadow: 0 0 20px #00e5ff;
   }
 
-  /* Tombol Hewan */
+/* Tombol Hewan */
 .btn {
   width: 300px;
   height: 300px;
@@ -65,14 +65,15 @@
   justify-content: center;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
+  padding: 0; /* biar gak ada spasi dalam button */
 }
 
-/* Gambar di dalam tombol */
+/* Gambar dalam tombol */
 .btn img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90%;   /* gambar muat dalam tombol */
+  max-height: 90%;
   object-fit: contain;
-  display: block;
+  display: block;   /* hilangkan spasi default */
 }
   .btn:hover {
     transform: translateY(-6px);
