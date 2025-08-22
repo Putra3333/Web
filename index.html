@@ -136,6 +136,7 @@
 <div id="menu">
   <button id="btnV1" class="menuBtn activeVersi" onclick="setVersi(1)">Versi 1 (+2)</button>
   <button id="btnV2" class="menuBtn" onclick="setVersi(2)">Versi 2 (+3)</button>
+  <button id="btnV3" class="menuBtn" onclick="setVersi(3)">Versi 3 (+4)</button>
 </div>
 
 <!-- Baris Atas -->
@@ -171,6 +172,14 @@ let musik = document.getElementById("bgMusic");
 
 const versi1 = { rusa:1, gentong:0, ayam:5, ikan:4, kepiting:3, udang:2 };
 const versi2 = { rusa:0, gentong:1, ayam:2, ikan:3, kepiting:4, udang:5 };
+const versi3 = { 
+  gentong: 0, 
+  ikan: 1, 
+  kepiting: 2, 
+  rusa: 3, 
+  ayam: 4, 
+  udang: 5 
+};
 
 const hewan = {
   rusa:{nama:"Rusa", img:"rusa.png"},
@@ -186,6 +195,7 @@ function setVersi(v) {
   resetPilihan();
   document.getElementById("btnV1").classList.remove("activeVersi");
   document.getElementById("btnV2").classList.remove("activeVersi");
+  document.getElementById("btnV3").classList.remove("activeVersi"); // tambahkan ini
   document.getElementById("btnV" + v).classList.add("activeVersi");
   alert("✅ Mode diganti ke Versi " + v);
 }
@@ -209,20 +219,26 @@ function pilih(nama) {
 }
 
 function hitungHasil() {
-  let map = (versi === 1) ? versi1 : versi2;
-  let total = pilihan.reduce((a,b) => a + map[b], 0);
+  let map = (versi === 1) ? versi1 : (versi === 2) ? versi2 : versi3;
 
-  // Bedakan tambahan untuk tiap versi
+  // Hitung total dari pilihan
+  let total = pilihan.reduce((a, b) => a + map[b], 0);
+
+  // Tambahkan bonus sesuai versi
   if (versi === 1) total += 2;
   if (versi === 2) total += 3;
+  if (versi === 3) total += 4;
 
+  // Modifikasi total supaya berada dalam range 0-5 (sesuai pola game)
   if (total >= 6 && total <= 11) total -= 6;
   else if (total >= 12 && total <= 17) total -= 12;
   else if (total >= 18 && total <= 24) total -= 18;
 
+  // Cari nama hewan hasil
   let hasilNama = Object.keys(map).find(key => map[key] === total);
   let hasil = hewan[hasilNama];
 
+  // Tampilkan hasil
   document.getElementById("result").innerHTML = 
     `Hasil: ${hasil.nama} <br><img src="${hasil.img}" alt="${hasil.nama}">`;
 }
