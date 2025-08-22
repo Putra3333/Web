@@ -225,32 +225,38 @@ function gabungHasil() {
     return;
   }
 
-  const semuaVersi = [versi1, versi2, versi3];
-  const bonusVersi = [2, 3, 4];
+  const semuaVersi = [versi1, versi2, versi3]; // Map tiap versi
+  const bonusVersi = [2,3,4]; // Bonus per versi
   let htmlHasil = "";
 
   semuaVersi.forEach((map, index) => {
-    // Hitung total
+    // Hitung total untuk versi ini
     let total = pilihan.reduce((a, b) => a + map[b], 0) + bonusVersi[index];
+    total = total % 6; // pastikan total tetap 0-5
 
-    // Modifikasi total supaya 0-5
-    if (total >= 6 && total <= 11) total -= 6;
-    else if (total >= 12 && total <= 17) total -= 12;
-    else if (total >= 18 && total <= 24) total -= 18;
+    // Cari hewan hasil sesuai total
+    let hasilNama = null;
+    for (const key in map) {
+      if (map[key] === total) {
+        hasilNama = key;
+        break;
+      }
+    }
+    if (!hasilNama) hasilNama = Object.keys(map)[0]; // fallback
 
-    // Dapatkan hewan hasil
-    let hasilNama = Object.keys(map).find(key => map[key] === total);
     let hasil = hewan[hasilNama];
 
+    // Tambahkan hasil versi ini ke HTML
     htmlHasil += `
       <div style="display:inline-block; margin:10px; text-align:center;">
-        <h3>Versi ${index+1}</h3>
+        <h3>Versi ${index + 1}</h3>
         <div>Hasil: ${hasil.nama}</div>
-        <img src="${hasil.img}" alt="${hasil.nama}" style="width:200px; height:200px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
+        <img src="${hasil.img}" alt="${hasil.nama}" style="width:150px; height:150px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
       </div>
     `;
   });
 
+  // Tampilkan semua hasil berjejer
   document.getElementById("result").innerHTML = htmlHasil;
 }
 
